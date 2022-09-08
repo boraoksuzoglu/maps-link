@@ -6,7 +6,7 @@ Generates URLs from all map providers for the location you choose.
 
 ## Video
 
-![mp4](./.github/video.mp4)
+![mp4](https://youtu.be/WmJWE-xVlao)
 
 ---
 
