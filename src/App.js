@@ -34,7 +34,7 @@ function App() {
   }, [])
 
   const copyLocationUrl = () => {
-    const url = `http://localhost:3000/?location=${coordinates.lat},${coordinates.lng}`
+    const url = `${process.env.REACT_APP_URL}/?location=${coordinates.lat},${coordinates.lng}`
     navigator.clipboard.writeText(url)
   }
 
