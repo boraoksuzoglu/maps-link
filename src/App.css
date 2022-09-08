@@ -1,50 +1,42 @@
 p {
-	margin: 0 !important;
-	color: #fff !important;
+  margin: 0 !important;
+  color: #fff !important;
 }
 
 .App {
-	text-align: center;
+  text-align: center;
 }
 
 .map {
-	height: 500px;
+  height: 500px;
 }
 
 .btn-google {
-
-	background-color: #34a853 !important;
-	color: #fff !important;
-
+  background-color: #34a853 !important;
+  color: #fff !important;
 }
 
 .btn-yandex {
-	
-	background-color: #ff3c00 !important;
-	color: #fff !important;
-
+  background-color: #ff3c00 !important;
+  color: #fff !important;
 }
 .btn-apple {
-
-	background-color: rgb(19, 129, 202) !important;
-	color: #fff !important;
-
-
+  background-color: rgb(19, 129, 202) !important;
+  color: #fff !important;
 }
 
 .col-12 {
- 
   justify-content: center;
   align-items: center;
-
 }
 
-.btn, a {
-	height: 100%;
-	width: 100%;
+.btn,
+a {
+  height: 100%;
+  width: 100%;
 }
 
 .icon {
-	border-radius: 5px;
-	background-color: white;
+  border-radius: 5px;
+  background-color: white;
 }
