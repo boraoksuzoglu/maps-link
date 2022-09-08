@@ -1,5 +1,7 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import GoogleMapReact from 'google-map-react'
 
@@ -11,19 +13,32 @@ function App() {
   const search = useLocation().search
   const location = new URLSearchParams(search).get('location')
 
-  if (!location) {
-    const defaultProps = {
-      center: {
-        lat: 39.925533,
-        lng: 32.866287
-      },
-      zoom: 11
-    }
+  const initialLat = location ? location.split(',')[0] : 39.925533
+  const initialLng = location ? location.split(',')[1] : 32.866287
 
-    const copyToClipboard = () => {
-      navigator.clipboard.writeText(document.getElementById('url').href)
-    }
+  const [zoom] = useState(11)
+  const [showLocationPage, setShowLocationPage] = useState(location !== null)
+  const [coordinates, setCoordinates] = useState({
+    lat: initialLat,
+    lng: initialLng
+  })
 
+  useEffect(() => {
+    if (location) return
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setCoordinates({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      })
+    })
+  }, [])
+
+  const copyLocationUrl = () => {
+    const url = `http://localhost:3000/?location=${coordinates.lat},${coordinates.lng}`
+    navigator.clipboard.writeText(url)
+  }
+
+  if (!showLocationPage) {
     return (
       <div className="App bg-dark">
         <div className="container-fluid vw-100 vh-100 pt-5">
@@ -33,30 +48,27 @@ function App() {
 
             <div className="col-12 mt-3 map">
               <GoogleMapReact
-                onClick={(ev) => {
-                  document.getElementById(
-                    'url'
-                  ).href = `http://localhost:3000/?location=${ev.lat},${ev.lng}`
+                onClick={({ lat, lng }) => {
+                  setCoordinates({ lat, lng })
                 }}
-                bootstrapURLKeys={{ key: '' }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}></GoogleMapReact>
+                center={coordinates}
+                defaultZoom={zoom}
+                bootstrapURLKeys={{ key: '' }}></GoogleMapReact>
             </div>
             <div className="col-12 mt-2">
               <button
                 type="button"
-                onClick={copyToClipboard}
+                onClick={copyLocationUrl}
                 className="btn btn-secondary btn-lg btn-block">
                 <p>Copy URL</p>
               </button>
             </div>
             <div className="col-12 mt-2">
-              <a
-                target="_blank"
-                href={`http://localhost:3000/?location=${defaultProps.center.lat},${defaultProps.center.lng}`}
-                rel="noreferrer"
-                id="url">
-                <button type="button" className="btn btn-primary btn-lg btn-block">
+              <a target="_blank" rel="noreferrer" id="url">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-lg btn-block"
+                  onClick={() => setShowLocationPage(true)}>
                   <p>Click to Go</p>
                 </button>
               </a>
@@ -67,10 +79,6 @@ function App() {
     )
   }
 
-  var coords = location.split(',')
-  var lat = coords[0]
-  var lon = coords[1]
-
   return (
     <div className="App bg-dark">
       <div className="container-fluid vw-100 vh-100 pt-5">
@@ -78,7 +86,7 @@ function App() {
           <h1 className="text-light">Location</h1>
           <div className="col-12">
             <a
-              href={'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lon}
+              href={`https://www.google.com/maps/search/?api=1&query=${coordinates.lat},${coordinates.lng}`}
               target="_blank"
               rel="noreferrer">
               <button type="button" className="btn btn-google btn-lg btn-block">
@@ -90,7 +98,7 @@ function App() {
 
           <div className="col-12 mt-2">
             <a
-              href={'https://yandex.ru/maps/?pt=' + lon + ',' + lat + '&z=18&l=map'}
+              href={`https://yandex.ru/maps/?pt=${coordinates.lng},${coordinates.lat}&z=18&l=map`}
               target="_blank"
               rel="noreferrer">
               <button type="button" className="btn btn-yandex btn-lg btn-block">
@@ -102,7 +110,7 @@ function App() {
 
           <div className="col-12 mt-2">
             <a
-              href={'https://maps.apple.com/?ll=' + lat + ',' + lon}
+              href={`https://maps.apple.com/?ll=${coordinates.lat},${coordinates.lng}`}
               target="_blank"
               rel="noreferrer">
               <button type="button" className="btn btn-apple btn-lg btn-block">
@@ -113,8 +121,11 @@ function App() {
           </div>
 
           <div className="col-12 mt-3">
-            <a href="http://localhost:3000" rel="noreferrer">
-              <button type="button" className="btn btn-secondary btn-lg btn-block">
+            <a rel="noreferrer">
+              <button
+                type="button"
+                className="btn btn-secondary btn-lg btn-block"
+                onClick={() => setShowLocationPage(false)}>
                 <p>Generate new URL</p>
               </button>
             </a>
