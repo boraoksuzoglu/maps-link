@@ -11,4 +11,5 @@ Generates URLs from all map providers for the location you choose.
 ---
 
 ## Live!
+
 https://maplink.borao.dev/
