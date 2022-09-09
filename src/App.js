@@ -13,8 +13,8 @@ function App() {
   const search = useLocation().search
   const location = new URLSearchParams(search).get('location')
 
-  const initialLat = location ? location.split(',')[0] : 39.925533
-  const initialLng = location ? location.split(',')[1] : 32.866287
+  const initialLat = location ? Number(location.split(',')[0]) : 39.925533
+  const initialLng = location ? Number(location.split(',')[1]) : 32.866287
 
   const [zoom] = useState(11)
   const [showLocationPage, setShowLocationPage] = useState(location !== null)
