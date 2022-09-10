@@ -40,3 +40,12 @@ a {
   border-radius: 5px;
   background-color: white;
 }
+
+.marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  user-select: none;
+}

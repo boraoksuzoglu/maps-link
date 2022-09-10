@@ -8,6 +8,7 @@ import GoogleMapReact from 'google-map-react'
 import google_icon from './assets/google-maps.png'
 import yandex_icon from './assets/yandex.png'
 import apple_icon from './assets/apple.png'
+import marker_icon from './assets/marker.png'
 
 function App() {
   const search = useLocation().search
@@ -38,6 +39,8 @@ function App() {
     navigator.clipboard.writeText(url)
   }
 
+  const Marker = () => <img className="marker" src={marker_icon} />
+
   if (!showLocationPage) {
     return (
       <div className="App bg-dark">
@@ -53,8 +56,11 @@ function App() {
                 }}
                 center={coordinates}
                 defaultZoom={zoom}
-                bootstrapURLKeys={{ key: '' }}></GoogleMapReact>
+                bootstrapURLKeys={{ key: '' }}>
+                <Marker lat={coordinates.lat} lng={coordinates.lng} />
+              </GoogleMapReact>
             </div>
+
             <div className="col-12 mt-2">
               <button
                 type="button"
@@ -63,6 +69,7 @@ function App() {
                 <p>Copy URL</p>
               </button>
             </div>
+
             <div className="col-12 mt-2">
               <a target="_blank" rel="noreferrer" id="url">
                 <button
